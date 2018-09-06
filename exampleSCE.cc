@@ -12,7 +12,7 @@
 namespace {
         void PrintUsage() {
                 G4cerr << " Usage: " << G4endl;
-                G4cerr << " exampleSCE [-ev number of events ] [-en pion energy]" << G4endl;
+                G4cerr << " exampleSCE [-ev number of events ] [-en pion energy] [-nl number of layers]" << G4endl;
         }
 }
 
@@ -22,17 +22,19 @@ int main(int argc,char** argv) {
 
         // Evaluate arguments
         //
-        if ( argc > 5 || argc == 1) {
+        if ( argc > 7 || argc == 1) {
                 PrintUsage();
                 return 1;
         }
 
         int nevents;
+        int nlayers;
         G4String energy;
         G4String gev = " GeV";
         for ( G4int i=1; i<argc; i=i+2 ) {
                 if      ( G4String(argv[i]) == "-ev" ) nevents = G4UIcommand::ConvertToInt(argv[i+1]);
                 else if ( G4String(argv[i]) == "-en" ) energy = argv[i+1] + gev;
+                else if ( G4String(argv[i]) == "-nl" ) nlayers = G4UIcommand::ConvertToInt(argv[i+1]);
                 else {
                         PrintUsage();
                         return 1;
@@ -49,7 +51,7 @@ int main(int argc,char** argv) {
 
         // Set mandatory initialization classes
         //
-        auto detConstruction = new SCEDetectorConstruction();
+        auto detConstruction = new SCEDetectorConstruction(nlayers);
         runManager->SetUserInitialization(detConstruction);
 
         auto physicsList = new FTFP_BERT;
@@ -66,7 +68,7 @@ int main(int argc,char** argv) {
 
         // Run commands
         G4String command = "/tracking/verbose 1";
-        UImanager->ApplyCommand(command);
+        //UImanager->ApplyCommand(command);
         command = "/gun/energy ";
         UImanager->ApplyCommand(command+energy);
         runManager->BeamOn(nevents);

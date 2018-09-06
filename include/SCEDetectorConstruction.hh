@@ -5,7 +5,6 @@
 #include "globals.hh"
 
 class G4VPhysicalVolume;
-class G4GlobalMagFieldMessenger;
 
 /// Detector construction class to define materials and geometry.
 /// The calorimeter is a box made of a given number of layers. A layer consists
@@ -20,13 +19,11 @@ class G4GlobalMagFieldMessenger;
 ///
 /// In ConstructSDandField() sensitive detectors of SCECalorimeterSD type
 /// are created and associated with the Absorber and Gap volumes.
-/// In addition a transverse uniform magnetic field is defined
-/// via G4GlobalMagFieldMessenger class.
 
 class SCEDetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    SCEDetectorConstruction();
+    SCEDetectorConstruction(int fnlayers);
     virtual ~SCEDetectorConstruction();
 
   public:
@@ -35,15 +32,10 @@ class SCEDetectorConstruction : public G4VUserDetectorConstruction
 
   private:
     // methods
-    //
     void DefineMaterials();
     G4VPhysicalVolume* DefineVolumes();
 
     // data members
-    //
-    static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger;
-                                      // magnetic field messenger
-
     G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
     G4int   fNofLayers;     // number of layers
 };

@@ -31,11 +31,11 @@ G4ThreadLocal
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCEDetectorConstruction::SCEDetectorConstruction()
+SCEDetectorConstruction::SCEDetectorConstruction(int fnlayers)
  : G4VUserDetectorConstruction(),
-   fCheckOverlaps(true),
-   fNofLayers(-1)
+   fCheckOverlaps(true)
 {
+        fNofLayers = fnlayers;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -86,7 +86,7 @@ void SCEDetectorConstruction::DefineMaterials()
 G4VPhysicalVolume* SCEDetectorConstruction::DefineVolumes()
 {
   // Geometry parameters
-  fNofLayers = 30;
+  //fNofLayers = 30;
   G4double absoThickness = 5.*cm;
   G4double gapThickness =  5.*cm;
   G4double calorSizeXY  = 2.*m;

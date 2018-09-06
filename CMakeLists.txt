@@ -46,12 +46,7 @@ target_link_libraries(exampleSCE ${Geant4_LIBRARIES})
 set(EXAMPLESCEC_SCRIPTS
   exampleSCE.out
   exampleSCE.in
-  gui.mac
-  init_vis.mac
   plotHisto.C
-  run1.mac
-  run2.mac
-  vis.mac
   )
 
 foreach(_script ${EXAMPLESCEC_SCRIPTS})
