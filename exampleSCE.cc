@@ -12,7 +12,7 @@
 namespace {
         void PrintUsage() {
                 G4cerr << " Usage: " << G4endl;
-                G4cerr << " exampleSCE [-ev number of events ] [-en pion energy] [-nl number of layers]" << G4endl;
+                G4cerr << " exampleSCE [-ev number of events ] [-en pion energy (GeV)] [-nl number of layers] [-am absorber material] [-lt active layers thickness (cm)]" << G4endl;
         }
 }
 
@@ -22,19 +22,25 @@ int main(int argc,char** argv) {
 
         // Evaluate arguments
         //
-        if ( argc > 7 || argc == 1) {
+        if ( argc != 11) {
                 PrintUsage();
+                //G4cerr << "mmm" << G4endl;
                 return 1;
         }
 
         int nevents;
-        int nlayers;
         G4String energy;
         G4String gev = " GeV";
+        int nlayers;
+        G4String abs_material;
+        int active_thickness;
+
         for ( G4int i=1; i<argc; i=i+2 ) {
                 if      ( G4String(argv[i]) == "-ev" ) nevents = G4UIcommand::ConvertToInt(argv[i+1]);
                 else if ( G4String(argv[i]) == "-en" ) energy = argv[i+1] + gev;
                 else if ( G4String(argv[i]) == "-nl" ) nlayers = G4UIcommand::ConvertToInt(argv[i+1]);
+                else if ( G4String(argv[i]) == "-am" ) abs_material = argv[i+1];
+                else if ( G4String(argv[i]) == "-lt" ) active_thickness = G4UIcommand::ConvertToInt(argv[i+1]);
                 else {
                         PrintUsage();
                         return 1;
@@ -51,7 +57,7 @@ int main(int argc,char** argv) {
 
         // Set mandatory initialization classes
         //
-        auto detConstruction = new SCEDetectorConstruction(nlayers);
+        auto detConstruction = new SCEDetectorConstruction(nlayers, abs_material, active_thickness);
         runManager->SetUserInitialization(detConstruction);
 
         auto physicsList = new FTFP_BERT;

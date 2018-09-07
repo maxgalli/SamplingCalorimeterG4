@@ -31,11 +31,13 @@ G4ThreadLocal
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCEDetectorConstruction::SCEDetectorConstruction(int fnlayers)
+SCEDetectorConstruction::SCEDetectorConstruction(int fnlayers, G4String fabsmat, int factthick)
  : G4VUserDetectorConstruction(),
    fCheckOverlaps(true)
 {
         fNofLayers = fnlayers;
+        fAbsMaterial = fabsmat;
+        fActThickness = factthick;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -61,7 +63,8 @@ void SCEDetectorConstruction::DefineMaterials()
 {
   // Lead material defined using NIST Manager
   G4NistManager* nistManager = G4NistManager::Instance();
-  nistManager->FindOrBuildMaterial("G4_Pb");
+  //nistManager->FindOrBuildMaterial("G4_Pb");
+  nistManager->FindOrBuildMaterial(fAbsMaterial);
   nistManager->FindOrBuildMaterial("G4_SODIUM_IODIDE");
 
   // Liquid argon material
@@ -88,7 +91,8 @@ G4VPhysicalVolume* SCEDetectorConstruction::DefineVolumes()
   // Geometry parameters
   //fNofLayers = 30;
   G4double absoThickness = 5.*cm;
-  G4double gapThickness =  5.*cm;
+  //G4double gapThickness =  5.*cm;
+  G4double gapThickness =  fActThickness *cm;
   G4double calorSizeXY  = 2.*m;
 
   G4double layerThickness = absoThickness + gapThickness;
@@ -98,7 +102,7 @@ G4VPhysicalVolume* SCEDetectorConstruction::DefineVolumes()
 
   // Get materials
   G4Material* defaultMaterial = G4Material::GetMaterial("Galactic");
-  G4Material* absorberMaterial = G4Material::GetMaterial("G4_Pb");
+  G4Material* absorberMaterial = G4Material::GetMaterial(fAbsMaterial);
   G4Material* gapMaterial = G4Material::GetMaterial("G4_SODIUM_IODIDE");
 
   if ( ! defaultMaterial || ! absorberMaterial || ! gapMaterial ) {

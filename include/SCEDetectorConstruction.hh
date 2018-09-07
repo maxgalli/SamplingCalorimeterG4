@@ -23,7 +23,7 @@ class G4VPhysicalVolume;
 class SCEDetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    SCEDetectorConstruction(int fnlayers);
+    SCEDetectorConstruction(int fnlayers, G4String fabsmat, int factthick);
     virtual ~SCEDetectorConstruction();
 
   public:
@@ -36,8 +36,10 @@ class SCEDetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* DefineVolumes();
 
     // data members
-    G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
-    G4int   fNofLayers;     // number of layers
+    G4bool fCheckOverlaps; // option to activate checking of volumes overlaps
+    G4int fNofLayers;     // number of layers
+    G4String fAbsMaterial;
+    G4int fActThickness;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
