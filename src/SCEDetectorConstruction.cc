@@ -93,7 +93,7 @@ G4VPhysicalVolume* SCEDetectorConstruction::DefineVolumes()
   G4double absoThickness = 5.*cm;
   //G4double gapThickness =  5.*cm;
   G4double gapThickness =  fActThickness *cm;
-  G4double calorSizeXY  = 2.*m;
+  G4double calorSizeXY  = 5.*m;
 
   G4double layerThickness = absoThickness + gapThickness;
   G4double calorThickness = fNofLayers * layerThickness;
@@ -234,7 +234,7 @@ G4VPhysicalVolume* SCEDetectorConstruction::DefineVolumes()
   G4cout
     << G4endl
     << "------------------------------------------------------------" << G4endl
-    << "---> The calorimeter is " << fNofLayers << " layers of: [ "
+    << "---> The calorimeter has " << fNofLayers << " layers of: [ "
     << absoThickness/mm << "mm of " << absorberMaterial->GetName()
     << " + "
     << gapThickness/mm << "mm of " << gapMaterial->GetName() << " ] " << G4endl

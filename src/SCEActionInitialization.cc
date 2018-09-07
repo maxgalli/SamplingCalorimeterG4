@@ -5,9 +5,11 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCEActionInitialization::SCEActionInitialization()
+SCEActionInitialization::SCEActionInitialization(int nenergy)
  : G4VUserActionInitialization()
-{}
+{
+nEnergy = nenergy;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -18,7 +20,7 @@ SCEActionInitialization::~SCEActionInitialization()
 
 void SCEActionInitialization::BuildForMaster() const
 {
-  SetUserAction(new SCERunAction);
+  SetUserAction(new SCERunAction(nEnergy));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -26,7 +28,7 @@ void SCEActionInitialization::BuildForMaster() const
 void SCEActionInitialization::Build() const
 {
   SetUserAction(new SCEPrimaryGeneratorAction);
-  SetUserAction(new SCERunAction);
+  SetUserAction(new SCERunAction(nEnergy));
   SetUserAction(new SCEEventAction);
 }
 

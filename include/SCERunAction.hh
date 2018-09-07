@@ -27,11 +27,14 @@ class G4Run;
 class SCERunAction : public G4UserRunAction
 {
   public:
-    SCERunAction();
+    SCERunAction(int nenergy);
     virtual ~SCERunAction();
 
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
+
+  private:
+    int nEnergy;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

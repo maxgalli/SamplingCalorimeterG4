@@ -9,11 +9,14 @@
 class SCEActionInitialization : public G4VUserActionInitialization
 {
   public:
-    SCEActionInitialization();
+    SCEActionInitialization(int nenergy);
     virtual ~SCEActionInitialization();
 
     virtual void BuildForMaster() const;
     virtual void Build() const;
+
+  private:
+    int nEnergy;
 };
 
 #endif
