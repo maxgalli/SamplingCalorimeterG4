@@ -110,14 +110,24 @@ void SCEEventAction::EndOfEventAction(const G4Event* event)
 
         int id = 0;
         int id_tup = 0;
+        double abso_lenght = 0;
+        double gap_lenght = 0;
         for (int i=0; i<absoHC->entries(); i++) {
                 absoHit = (*absoHC)[i];
                 gapHit = (*gapHC)[i];
+                abso_lenght += absoHit->GetTrackLength();
+                gap_lenght += gapHit->GetTrackLength();
                 // fill histograms
                 analysisManager->FillH1(id, absoHit->GetEdep());
                 analysisManager->FillH1(id + 1, gapHit->GetEdep());
-                analysisManager->FillH1(id + 2, absoHit->GetTrackLength());
-                analysisManager->FillH1(id + 3, gapHit->GetTrackLength());
+                if (i!=0 && i<(absoHC->entries()-1)) {
+                        analysisManager->FillH1(id + 2, abso_lenght);
+                        analysisManager->FillH1(id + 3, gap_lenght);
+                }
+                else {
+                        analysisManager->FillH1(id + 2, absoHit->GetTrackLength());
+                        analysisManager->FillH1(id + 3, gapHit->GetTrackLength());
+                }
                 // fill ntuple
                 analysisManager->FillNtupleDColumn(i, id_tup, absoHit->GetEdep());
                 analysisManager->FillNtupleDColumn(i, id_tup + 1, gapHit->GetEdep());
