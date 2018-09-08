@@ -102,6 +102,13 @@ void SCERunAction::EndOfRunAction(const G4Run* /*run*/)
                         << G4BestUnit(analysisManager->GetH1(0)->mean() + analysisManager->GetH1(1)->mean(), "Energy")
                         << G4endl;
 
+                G4cout << "Energy resolution: "
+                        << G4BestUnit(analysisManager->GetH1(1)->rms() / analysisManager->GetH1(1)->mean(), "Energy")
+                        << G4endl;
+
+                G4cout << "corresponding to: "
+                        << (analysisManager->GetH1(1)->rms()/analysisManager->GetH1(1)->mean())*100 << "%" << G4endl;
+
                 G4cout << " LAbs : mean = "
                         << G4BestUnit(analysisManager->GetH1(2)->mean(), "Length")
                         << " rms = "
