@@ -109,6 +109,7 @@ void SCEEventAction::EndOfEventAction(const G4Event* event)
         auto analysisManager = G4AnalysisManager::Instance();
 
         int id = 0;
+        int id_tup = 0;
         for (int i=0; i<absoHC->entries(); i++) {
                 absoHit = (*absoHC)[i];
                 gapHit = (*gapHC)[i];
@@ -118,11 +119,11 @@ void SCEEventAction::EndOfEventAction(const G4Event* event)
                 analysisManager->FillH1(id + 2, absoHit->GetTrackLength());
                 analysisManager->FillH1(id + 3, gapHit->GetTrackLength());
                 // fill ntuple
-                analysisManager->FillNtupleDColumn(id, absoHit->GetEdep());
-                analysisManager->FillNtupleDColumn(id + 1, gapHit->GetEdep());
-                analysisManager->FillNtupleDColumn(id + 2, absoHit->GetTrackLength());
-                analysisManager->FillNtupleDColumn(id + 3, gapHit->GetTrackLength());
-                analysisManager->AddNtupleRow();
+                analysisManager->FillNtupleDColumn(i, id_tup, absoHit->GetEdep());
+                analysisManager->FillNtupleDColumn(i, id_tup + 1, gapHit->GetEdep());
+                analysisManager->FillNtupleDColumn(i, id_tup + 2, absoHit->GetTrackLength());
+                analysisManager->FillNtupleDColumn(i, id_tup + 3, gapHit->GetTrackLength());
+                analysisManager->AddNtupleRow(i);
 
                 id += 4;
         }

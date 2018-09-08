@@ -43,10 +43,10 @@ SCERunAction::SCERunAction(int nenergy, int nlayers)
                 // Creating ntuple
                 //
                 analysisManager->CreateNtuple("SCE" + std::to_string(i), "Edep and TrackL");
-                analysisManager->CreateNtupleDColumn("Eabs" + std::to_string(i));
-                analysisManager->CreateNtupleDColumn("Egap" + std::to_string(i));
-                analysisManager->CreateNtupleDColumn("Labs" + std::to_string(i));
-                analysisManager->CreateNtupleDColumn("Lgap" + std::to_string(i));
+                analysisManager->CreateNtupleDColumn("Eabs");
+                analysisManager->CreateNtupleDColumn("Egap");
+                analysisManager->CreateNtupleDColumn("Labs");
+                analysisManager->CreateNtupleDColumn("Lgap");
                 analysisManager->FinishNtuple();
         }
 }
