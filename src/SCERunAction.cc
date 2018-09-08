@@ -8,11 +8,10 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCERunAction::SCERunAction(int nenergy, G4String fabsmaterial, int nlayers)
+SCERunAction::SCERunAction(int nenergy, int nlayers)
         : G4UserRunAction()
 {
         nEnergy = nenergy;
-        fAbsMaterial = fabsmaterial;
         nLayers = nlayers;
 
         // set printing event number per each event
@@ -34,7 +33,7 @@ SCERunAction::SCERunAction(int nenergy, G4String fabsmaterial, int nlayers)
         // Book histograms, ntuple
         //
 
-        for (int i=0; i<nLayers; i++) {
+        for (int i=0; i<(nLayers+1); i++) {
                 // Creating histograms
                 analysisManager->CreateH1("Eabs" + std::to_string(i),"Edep in absorber", 100, 0., nEnergy*GeV);
                 analysisManager->CreateH1("Egap" + std::to_string(i),"Edep in gap", 100, 0., nEnergy*GeV);
@@ -71,7 +70,7 @@ void SCERunAction::BeginOfRunAction(const G4Run* /*run*/)
 
         // Open an output file
         //
-        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial;
+        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV";
         analysisManager->OpenFile(fileName);
 }
 
@@ -82,7 +81,7 @@ void SCERunAction::EndOfRunAction(const G4Run* /*run*/)
         // print histogram statistics
         //
         auto analysisManager = G4AnalysisManager::Instance();
-        if ( analysisManager->GetH1(1) ) {
+        if ( analysisManager->GetH1(nLayers*4+1) ) {
                 G4cout << G4endl << " ----> print histograms statistic ";
                 if(isMaster) {
                         G4cout << "for the entire run " << G4endl << G4endl;
@@ -92,35 +91,35 @@ void SCERunAction::EndOfRunAction(const G4Run* /*run*/)
                 }
 
                 G4cout << " EAbs : mean = "
-                        << G4BestUnit(analysisManager->GetH1(0)->mean(), "Energy")
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4)->mean(), "Energy")
                         << " rms = "
-                        << G4BestUnit(analysisManager->GetH1(0)->rms(),  "Energy") << G4endl;
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4)->rms(),  "Energy") << G4endl;
 
                 G4cout << " EGap : mean = "
-                        << G4BestUnit(analysisManager->GetH1(1)->mean(), "Energy")
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4+1)->mean(), "Energy")
                         << " rms = "
-                        << G4BestUnit(analysisManager->GetH1(1)->rms(),  "Energy") << G4endl;
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4+1)->rms(),  "Energy") << G4endl;
 
                 G4cout << "Total mean energy deposited: "
-                        << G4BestUnit(analysisManager->GetH1(0)->mean() + analysisManager->GetH1(1)->mean(), "Energy")
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4)->mean() + analysisManager->GetH1(nLayers*4+1)->mean(), "Energy")
                         << G4endl;
 
                 G4cout << "Energy resolution: "
-                        << G4BestUnit(analysisManager->GetH1(1)->rms() / analysisManager->GetH1(1)->mean(), "Energy")
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4+1)->rms() / analysisManager->GetH1(nLayers*4+1)->mean(), "Energy")
                         << G4endl;
 
                 G4cout << "corresponding to: "
-                        << (analysisManager->GetH1(1)->rms()/analysisManager->GetH1(1)->mean())*100 << "%" << G4endl;
+                        << (analysisManager->GetH1(nLayers*4+1)->rms()/analysisManager->GetH1(nLayers*4+1)->mean())*100 << "%" << G4endl;
 
                 G4cout << " LAbs : mean = "
-                        << G4BestUnit(analysisManager->GetH1(2)->mean(), "Length")
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4+2)->mean(), "Length")
                         << " rms = "
-                        << G4BestUnit(analysisManager->GetH1(2)->rms(),  "Length") << G4endl;
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4+2)->rms(),  "Length") << G4endl;
 
                 G4cout << " LGap : mean = "
-                        << G4BestUnit(analysisManager->GetH1(3)->mean(), "Length")
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4+3)->mean(), "Length")
                         << " rms = "
-                        << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
+                        << G4BestUnit(analysisManager->GetH1(nLayers*4+3)->rms(),  "Length") << G4endl;
         }
 
         // save histograms & ntuple

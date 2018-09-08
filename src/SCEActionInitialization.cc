@@ -5,11 +5,10 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCEActionInitialization::SCEActionInitialization(int nenergy, G4String fabsmaterial, int nlayers)
+SCEActionInitialization::SCEActionInitialization(int nenergy, int nlayers)
  : G4VUserActionInitialization()
 {
 nEnergy = nenergy;
-fAbsMaterial = fabsmaterial;
 nLayers = nlayers;
 }
 
@@ -22,7 +21,7 @@ SCEActionInitialization::~SCEActionInitialization()
 
 void SCEActionInitialization::BuildForMaster() const
 {
-  SetUserAction(new SCERunAction(nEnergy, fAbsMaterial, nLayers));
+  SetUserAction(new SCERunAction(nEnergy, nLayers));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -30,7 +29,7 @@ void SCEActionInitialization::BuildForMaster() const
 void SCEActionInitialization::Build() const
 {
   SetUserAction(new SCEPrimaryGeneratorAction);
-  SetUserAction(new SCERunAction(nEnergy, fAbsMaterial, nLayers));
+  SetUserAction(new SCERunAction(nEnergy, nLayers));
   SetUserAction(new SCEEventAction);
 }
 

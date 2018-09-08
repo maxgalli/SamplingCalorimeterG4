@@ -108,22 +108,23 @@ void SCEEventAction::EndOfEventAction(const G4Event* event)
         // get analysis manager
         auto analysisManager = G4AnalysisManager::Instance();
 
+        int id = 0;
         for (int i=0; i<absoHC->entries(); i++) {
                 absoHit = (*absoHC)[i];
                 gapHit = (*gapHC)[i];
                 // fill histograms
-                analysisManager->FillH1(0, absoHit->GetEdep());
-                analysisManager->FillH1(1, gapHit->GetEdep());
-                analysisManager->FillH1(2, absoHit->GetTrackLength());
-                analysisManager->FillH1(3, gapHit->GetTrackLength());
-
+                analysisManager->FillH1(id, absoHit->GetEdep());
+                analysisManager->FillH1(id + 1, gapHit->GetEdep());
+                analysisManager->FillH1(id + 2, absoHit->GetTrackLength());
+                analysisManager->FillH1(id + 3, gapHit->GetTrackLength());
                 // fill ntuple
-                analysisManager->FillNtupleDColumn(0, absoHit->GetEdep());
-                analysisManager->FillNtupleDColumn(1, gapHit->GetEdep());
-                analysisManager->FillNtupleDColumn(2, absoHit->GetTrackLength());
-                analysisManager->FillNtupleDColumn(3, gapHit->GetTrackLength());
+                analysisManager->FillNtupleDColumn(id, absoHit->GetEdep());
+                analysisManager->FillNtupleDColumn(id + 1, gapHit->GetEdep());
+                analysisManager->FillNtupleDColumn(id + 2, absoHit->GetTrackLength());
+                analysisManager->FillNtupleDColumn(id + 3, gapHit->GetTrackLength());
                 analysisManager->AddNtupleRow();
 
+                id += 4;
         }
 }
 
