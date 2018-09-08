@@ -16,10 +16,14 @@ int main (int argc, char** argv ){
         int bin2 = h->FindLastBinAbove(h->GetMaximum()/2);
         double fwhm = h->GetBinCenter(bin2) - h->GetBinCenter(bin1);
         double mean = h->GetMean();
+        double rms = h->GetRMS();
         double res = fwhm/mean;
+        double res2 = rms/mean;
 
         cout << "FWHM for Egap is: " << fwhm << endl;
+        cout << "RMS for Egap is: " << rms << endl;
         cout << "Mean for Egap is: " << mean << endl;
-        cout << "Energy resolution is: " << res*100 << "%" << endl;
+        cout << "Energy resolution (with FWHM) is: " << res*100 << "%" << endl;
+        cout << "Energy resolution (with RMS) is: " << res2*100 << "%" << endl;
 
 }

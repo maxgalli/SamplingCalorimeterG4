@@ -9,7 +9,7 @@
 class SCEActionInitialization : public G4VUserActionInitialization
 {
   public:
-    SCEActionInitialization(int nenergy);
+    SCEActionInitialization(int nenergy, G4String fabsmaterial, int nlayers);
     virtual ~SCEActionInitialization();
 
     virtual void BuildForMaster() const;
@@ -17,6 +17,8 @@ class SCEActionInitialization : public G4VUserActionInitialization
 
   private:
     int nEnergy;
+    G4String fAbsMaterial;
+    int nLayers;
 };
 
 #endif

@@ -8,11 +8,12 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCERunAction::SCERunAction(int nenergy)
+SCERunAction::SCERunAction(int nenergy, G4String fabsmaterial, int nlayers)
         : G4UserRunAction()
 {
-
         nEnergy = nenergy;
+        fAbsMaterial = fabsmaterial;
+        nLayers = nlayers;
 
         // set printing event number per each event
         G4RunManager::GetRunManager()->SetPrintProgress(1);
@@ -33,20 +34,22 @@ SCERunAction::SCERunAction(int nenergy)
         // Book histograms, ntuple
         //
 
-        // Creating histograms
-        analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., nEnergy*GeV);
-        analysisManager->CreateH1("Egap","Edep in gap", 100, 0., nEnergy*GeV);
-        analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., nEnergy*m);
-        analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., nEnergy*m);
+        for (int i=0; i<nLayers; i++) {
+                // Creating histograms
+                analysisManager->CreateH1("Eabs" + std::to_string(i),"Edep in absorber", 100, 0., nEnergy*GeV);
+                analysisManager->CreateH1("Egap" + std::to_string(i),"Edep in gap", 100, 0., nEnergy*GeV);
+                analysisManager->CreateH1("Labs" + std::to_string(i),"trackL in absorber", 100, 0., nEnergy*m);
+                analysisManager->CreateH1("Lgap" + std::to_string(i),"trackL in gap", 100, 0., nEnergy*m);
 
-        // Creating ntuple
-        //
-        analysisManager->CreateNtuple("SCE", "Edep and TrackL");
-        analysisManager->CreateNtupleDColumn("Eabs");
-        analysisManager->CreateNtupleDColumn("Egap");
-        analysisManager->CreateNtupleDColumn("Labs");
-        analysisManager->CreateNtupleDColumn("Lgap");
-        analysisManager->FinishNtuple();
+                // Creating ntuple
+                //
+                analysisManager->CreateNtuple("SCE" + std::to_string(i), "Edep and TrackL");
+                analysisManager->CreateNtupleDColumn("Eabs" + std::to_string(i));
+                analysisManager->CreateNtupleDColumn("Egap" + std::to_string(i));
+                analysisManager->CreateNtupleDColumn("Labs" + std::to_string(i));
+                analysisManager->CreateNtupleDColumn("Lgap" + std::to_string(i));
+                analysisManager->FinishNtuple();
+        }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -68,7 +71,7 @@ void SCERunAction::BeginOfRunAction(const G4Run* /*run*/)
 
         // Open an output file
         //
-        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV";
+        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial;
         analysisManager->OpenFile(fileName);
 }
 

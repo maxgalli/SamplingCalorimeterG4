@@ -67,7 +67,7 @@ int main(int argc,char** argv) {
         auto physicsList = new FTFP_BERT;
         runManager->SetUserInitialization(physicsList);
 
-        auto actionInitialization = new SCEActionInitialization(energy_value);
+        auto actionInitialization = new SCEActionInitialization(energy_value, abs_material, nlayers);
         runManager->SetUserInitialization(actionInitialization);
 
         // Initialize G4 kernel
