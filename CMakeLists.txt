@@ -11,8 +11,6 @@ project(SCE)
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
 # to build a batch mode only executable
 #
-list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
-
 option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
 if(WITH_GEANT4_UIVIS)
   find_package(Geant4 REQUIRED ui_all vis_all)
@@ -20,17 +18,12 @@ else()
   find_package(Geant4 REQUIRED)
 endif()
 
-find_package(ROOT REQUIRED)
-
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project
 #
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include)
-
-include_directories(${ROOT_INCLUDE_DIRS})
-set(ROOT_CXX_FLAGS "root-config --libs --cflags --ldflags")
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -45,9 +38,6 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 add_executable(exampleSCE exampleSCE.cc ${sources} ${headers})
 target_link_libraries(exampleSCE ${Geant4_LIBRARIES})
 
-add_executable(get_resolution get_resolution.cpp)
-target_link_libraries(get_resolution ${ROOT_LIBRARIES})
-
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
 # build SCE. This is so that we can run the executable directly because it
@@ -57,6 +47,7 @@ set(EXAMPLESCEC_SCRIPTS
   exampleSCE.out
   exampleSCE.in
   plotHisto.C
+  get_resolution.cpp
   )
 
 foreach(_script ${EXAMPLESCEC_SCRIPTS})
