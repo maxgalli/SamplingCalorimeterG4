@@ -1,14 +1,10 @@
 #include "SCEDetectorConstruction.hh"
 #include "SCEActionInitialization.hh"
+#include "G4RunManager.hh"
 #include "G4UImanager.hh"
 #include "G4UIcommand.hh"
 #include "FTFP_BERT.hh"
 #include "Randomize.hh"
-#ifdef G4MULTITHREADED
-#include "G4MTRunManager.hh"
-#else
-#include "G4RunManager.hh"
-#endif
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -16,7 +12,7 @@
 namespace {
         void PrintUsage() {
                 G4cerr << " Usage: " << G4endl;
-                G4cerr << " exampleSCE [-ev number of events ] [-en pion energy (GeV)] [-nl number of layers] [-am absorber material] [-lt active layers thickness (cm)] [-t threads number]" << G4endl;
+                G4cerr << " exampleSCE [-ev number of events ] [-en pion energy (GeV)] [-nl number of layers] [-am absorber material] [-lt active layers thickness (cm)]" << G4endl;
         }
 }
 
@@ -26,9 +22,9 @@ int main(int argc,char** argv) {
 
         // Evaluate arguments
         //
-        if ( argc != 11 && argc != 13) {
+        if ( argc != 11) {
                 PrintUsage();
-                G4cerr << "mmm" << G4endl;
+                //G4cerr << "mmm" << G4endl;
                 return 1;
         }
 
@@ -39,9 +35,6 @@ int main(int argc,char** argv) {
         int nlayers;
         G4String abs_material;
         int active_thickness;
-#ifdef G4MULTITHREADED
-        G4int nThreads = 0;
-#endif
 
         for ( G4int i=1; i<argc; i=i+2 ) {
                 if      ( G4String(argv[i]) == "-ev" ) nevents = G4UIcommand::ConvertToInt(argv[i+1]);
@@ -52,11 +45,6 @@ int main(int argc,char** argv) {
                 else if ( G4String(argv[i]) == "-nl" ) nlayers = G4UIcommand::ConvertToInt(argv[i+1]);
                 else if ( G4String(argv[i]) == "-am" ) abs_material = argv[i+1];
                 else if ( G4String(argv[i]) == "-lt" ) active_thickness = G4UIcommand::ConvertToInt(argv[i+1]);
-#ifdef G4MULTITHREADED
-                else if ( G4String(argv[i]) == "-t" ) {
-                        nThreads = G4UIcommand::ConvertToInt(argv[i+1]);
-                }
-#endif
                 else {
                         PrintUsage();
                         return 1;
@@ -69,14 +57,7 @@ int main(int argc,char** argv) {
 
         // Construct the default run manager
         //
-#ifdef G4MULTITHREADED
-        G4MTRunManager * runManager = new G4MTRunManager;
-        if ( nThreads > 0 ) {
-                runManager->SetNumberOfThreads(nThreads);
-        }
-#else
         G4RunManager * runManager = new G4RunManager;
-#endif
 
         // Set mandatory initialization classes
         //
