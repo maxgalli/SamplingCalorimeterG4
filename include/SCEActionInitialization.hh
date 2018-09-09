@@ -3,6 +3,7 @@
 
 #include "G4VUserActionInitialization.hh"
 
+// include here otherwise it doesn't compile
 #include "G4Types.hh"
 #include "G4String.hh"
 

@@ -73,6 +73,7 @@ void SCERunAction::BeginOfRunAction(const G4Run* /*run*/)
         //
         G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial;
         analysisManager->OpenFile(fileName);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -123,10 +124,22 @@ void SCERunAction::EndOfRunAction(const G4Run* /*run*/)
                         << G4BestUnit(analysisManager->GetH1(nLayers*4+3)->rms(),  "Length") << G4endl;
         }
 
+        // Open text file fo write means for later analysis
+        std::ofstream txtfile;
+        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial + ".txt";
+        txtfile.open(fileName);
+
+        // write to .txt file
+        for (int i=0; i<nLayers; i++) {
+                txtfile << i << "\t" << analysisManager->GetH1(i*4+3)->mean() << "\t" << analysisManager->GetH1(i*4+1)->mean() << "\n";
+        }
+        txtfile.close();
+
         // save histograms & ntuple
         //
         analysisManager->Write();
         analysisManager->CloseFile();
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
