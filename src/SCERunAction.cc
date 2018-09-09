@@ -8,12 +8,13 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCERunAction::SCERunAction(int nenergy, int nlayers, G4String fabsmaterial)
+SCERunAction::SCERunAction(int nenergy, int nlayers, G4String fabsmaterial, double fthick)
         : G4UserRunAction()
 {
         nEnergy = nenergy;
         nLayers = nlayers;
         fAbsMaterial = fabsmaterial;
+        fThick = fthick;
 
         // set printing event number per each event
         G4RunManager::GetRunManager()->SetPrintProgress(1);
@@ -71,7 +72,7 @@ void SCERunAction::BeginOfRunAction(const G4Run* /*run*/)
 
         // Open an output file
         //
-        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial;
+        G4String fileName = "rootfiles/SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial + std::to_string((int)fThick) + "cm";
         analysisManager->OpenFile(fileName);
 
 }
@@ -126,7 +127,7 @@ void SCERunAction::EndOfRunAction(const G4Run* /*run*/)
 
         // Open text file fo write means for later analysis
         std::ofstream txtfile;
-        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial + ".txt";
+        G4String fileName = "txtfiles/SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial + std::to_string((int)fThick) + "cm" + ".txt";
         txtfile.open(fileName);
 
         // write to .txt file

@@ -35,7 +35,7 @@ int main(int argc,char** argv) {
         int energy_value;
         int nlayers;
         G4String abs_material;
-        int active_thickness;
+        double active_thickness;
 
         for ( G4int i=1; i<argc; i=i+2 ) {
                 if      ( G4String(argv[i]) == "-ev" ) nevents = G4UIcommand::ConvertToInt(argv[i+1]);
@@ -45,7 +45,7 @@ int main(int argc,char** argv) {
                 }
                 else if ( G4String(argv[i]) == "-nl" ) nlayers = G4UIcommand::ConvertToInt(argv[i+1]);
                 else if ( G4String(argv[i]) == "-am" ) abs_material = argv[i+1];
-                else if ( G4String(argv[i]) == "-lt" ) active_thickness = G4UIcommand::ConvertToInt(argv[i+1]);
+                else if ( G4String(argv[i]) == "-lt" ) active_thickness = G4UIcommand::ConvertToDouble(argv[i+1]);
                 else {
                         PrintUsage();
                         return 1;
@@ -68,7 +68,7 @@ int main(int argc,char** argv) {
         auto physicsList = new FTFP_BERT;
         runManager->SetUserInitialization(physicsList);
 
-        auto actionInitialization = new SCEActionInitialization(energy_value, nlayers, abs_material);
+        auto actionInitialization = new SCEActionInitialization(energy_value, nlayers, abs_material, active_thickness);
         runManager->SetUserInitialization(actionInitialization);
 
         // Initialize G4 kernel

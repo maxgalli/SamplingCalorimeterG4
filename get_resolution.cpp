@@ -7,10 +7,10 @@ using namespace std;
 int main (int argc, char** argv ){
 
         char* filename = argv[1];
+        //int nLayers = ;
 
         TFile f(filename);
 
-        // with logaritmic scale for y
         TH1D* h = (TH1D*)f.Get("histograms/Egap");
         int bin1 = h->FindFirstBinAbove(h->GetMaximum()/2);
         int bin2 = h->FindLastBinAbove(h->GetMaximum()/2);
@@ -26,4 +26,5 @@ int main (int argc, char** argv ){
         cout << "Energy resolution (with FWHM) is: " << res*100 << "%" << endl;
         cout << "Energy resolution (with RMS) is: " << res2*100 << "%" << endl;
 
+        //TCanvas* c1 = new TCanvas("c1", "", 20, 20, 1000, 1000);
 }

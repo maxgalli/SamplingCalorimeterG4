@@ -43,6 +43,11 @@ target_link_libraries(exampleSCE ${Geant4_LIBRARIES})
 # build SCE. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
+file(MAKE_DIRECTORY rootfiles)
+file(COPY rootfiles DESTINATION .)
+file(MAKE_DIRECTORY txtfiles)
+file(COPY txtfiles DESTINATION .)
+
 set(EXAMPLESCEC_SCRIPTS
   exampleSCE.out
   exampleSCE.in
