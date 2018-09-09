@@ -8,11 +8,12 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SCERunAction::SCERunAction(int nenergy, int nlayers)
+SCERunAction::SCERunAction(int nenergy, int nlayers, G4String fabsmaterial)
         : G4UserRunAction()
 {
         nEnergy = nenergy;
         nLayers = nlayers;
+        fAbsMaterial = fabsmaterial;
 
         // set printing event number per each event
         G4RunManager::GetRunManager()->SetPrintProgress(1);
@@ -70,7 +71,7 @@ void SCERunAction::BeginOfRunAction(const G4Run* /*run*/)
 
         // Open an output file
         //
-        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV";
+        G4String fileName = "SCExam" + std::to_string(nEnergy) + "GeV" + fAbsMaterial;
         analysisManager->OpenFile(fileName);
 }
 

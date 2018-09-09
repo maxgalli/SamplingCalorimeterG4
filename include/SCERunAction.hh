@@ -27,7 +27,7 @@ class G4Run;
 class SCERunAction : public G4UserRunAction
 {
   public:
-    SCERunAction(int nenergy, int nlayers);
+    SCERunAction(int nenergy, int nlayers, G4String fabsmaterial);
     virtual ~SCERunAction();
 
     virtual void BeginOfRunAction(const G4Run*);
@@ -36,6 +36,7 @@ class SCERunAction : public G4UserRunAction
   private:
     int nEnergy;
     int nLayers;
+    G4String fAbsMaterial;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
