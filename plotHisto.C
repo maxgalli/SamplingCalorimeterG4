@@ -11,7 +11,7 @@
   //
 
   // Open file filled by Geant4 simulation
-  TFile f("CaloExe.root");
+  TFile f("rootfiles/SCExam1GeVG4_Pb5cm.root");
 
   // Create a canvas and divide it into 2x2 pads
   TCanvas* c1 = new TCanvas("c1", "", 20, 20, 1000, 1000);
@@ -19,17 +19,17 @@
 
   // Draw Eabs histogram in the pad 1
   c1->cd(1);
-  TH1D* hist1 = (TH1D*)f.Get("Eabs");
+  TH1D* hist1 = (TH1D*)f.Get("Eabs_tot");
   hist1->Draw("HIST");
 
   // Draw Labs histogram in the pad 2
   c1->cd(2);
-  TH1D* hist2 = (TH1D*)f.Get("Labs");
+  TH1D* hist2 = (TH1D*)f.Get("Labs_tot");
   hist2->Draw("HIST");
 
   // Draw Egap histogram in the pad 3
   // with logaritmic scale for y
-  TH1D* hist3 = (TH1D*)f.Get("Egap");
+  TH1D* hist3 = (TH1D*)f.Get("Egap_tot");
   c1->cd(3);
   gPad->SetLogy(1);
   hist3->Draw("HIST");
@@ -38,6 +38,6 @@
   // with logaritmic scale for y
   c1->cd(4);
   gPad->SetLogy(1);
-  TH1D* hist4 = (TH1D*)f.Get("Lgap");
+  TH1D* hist4 = (TH1D*)f.Get("Lgap_tot");
   hist4->Draw("HIST");
 }

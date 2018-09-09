@@ -26,8 +26,8 @@ SCERunAction::SCERunAction(int nenergy, int nlayers, G4String fabsmaterial, doub
         G4cout << "Using " << analysisManager->GetType() << G4endl;
 
         // Create directories
-        analysisManager->SetHistoDirectoryName("histograms");
-        analysisManager->SetNtupleDirectoryName("ntuple");
+        //analysisManager->SetHistoDirectoryName("histograms");
+        //analysisManager->SetNtupleDirectoryName("ntuple");
         analysisManager->SetVerboseLevel(1);
         analysisManager->SetNtupleMerging(true);
         // Note: merging ntuples is available only with Root output
