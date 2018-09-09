@@ -49,8 +49,6 @@ file(COPY rootfiles DESTINATION .)
 file(COPY txtfiles DESTINATION .)
 
 set(EXAMPLESCEC_SCRIPTS
-  exampleSCE.out
-  exampleSCE.in
   plotHisto.C
   root_analysis.cpp
   root_analysis.C
