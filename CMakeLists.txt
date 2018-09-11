@@ -52,6 +52,7 @@ set(EXAMPLESCEC_SCRIPTS
   plotHisto.C
   root_analysis.cpp
   root_analysis.C
+  get_resolution.C
   )
 
 foreach(_script ${EXAMPLESCEC_SCRIPTS})
