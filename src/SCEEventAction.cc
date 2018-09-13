@@ -128,14 +128,16 @@ void SCEEventAction::EndOfEventAction(const G4Event* event)
                         analysisManager->FillH1(id + 2, absoHit->GetTrackLength());
                         analysisManager->FillH1(id + 3, gapHit->GetTrackLength());
                 }
+                analysisManager->FillH1(id + 4, std::sqrt(std::pow(gapHit->GetPos().x(),2)+std::pow(gapHit->GetPos().y(),2)));
                 // fill ntuple
                 analysisManager->FillNtupleDColumn(i, id_tup, absoHit->GetEdep());
                 analysisManager->FillNtupleDColumn(i, id_tup + 1, gapHit->GetEdep());
                 analysisManager->FillNtupleDColumn(i, id_tup + 2, absoHit->GetTrackLength());
                 analysisManager->FillNtupleDColumn(i, id_tup + 3, gapHit->GetTrackLength());
+                analysisManager->FillNtupleDColumn(i, id_tup + 4, std::sqrt(std::pow(gapHit->GetPos().x(),2)+std::pow(gapHit->GetPos().y(),2)));
                 analysisManager->AddNtupleRow(i);
 
-                id += 4;
+                id += 5;
         }
 }
 

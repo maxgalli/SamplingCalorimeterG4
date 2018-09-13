@@ -15,32 +15,35 @@
 
 class SCECalorHit : public G4VHit
 {
-  public:
-    SCECalorHit();
-    SCECalorHit(const SCECalorHit&);
-    virtual ~SCECalorHit();
+        public:
+                SCECalorHit();
+                SCECalorHit(const SCECalorHit&);
+                virtual ~SCECalorHit();
 
-    // operators
-    const SCECalorHit& operator=(const SCECalorHit&);
-    G4int operator==(const SCECalorHit&) const;
+                // operators
+                const SCECalorHit& operator=(const SCECalorHit&);
+                G4int operator==(const SCECalorHit&) const;
 
-    inline void* operator new(size_t);
-    inline void  operator delete(void*);
+                inline void* operator new(size_t);
+                inline void  operator delete(void*);
 
-    // methods from base class
-    virtual void Draw() {}
-    virtual void Print();
+                // methods from base class
+                virtual void Draw() {}
+                virtual void Print();
 
-    // methods to handle data
-    void Add(G4double de, G4double dl);
+                // methods to handle data
+                void Add(G4double de, G4double dl, G4ThreeVector dp);
 
-    // get methods
-    G4double GetEdep() const;
-    G4double GetTrackLength() const;
+                // get methods
+                G4double GetEdep() const;
+                G4double GetTrackLength() const;
+                G4ThreeVector GetPos() const;
 
-  private:
-    G4double fEdep;        ///< Energy deposit in the sensitive volume
-    G4double fTrackLength; ///< Track length in the  sensitive volume
+        private:
+                G4double fEdep;        ///< Energy deposit in the sensitive volume
+                G4double fTrackLength; ///< Track length in the  sensitive volume
+                G4ThreeVector fPos;
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -53,33 +56,38 @@ extern G4ThreadLocal G4Allocator<SCECalorHit>* SCECalorHitAllocator;
 
 inline void* SCECalorHit::operator new(size_t)
 {
-  if (!SCECalorHitAllocator) {
-    SCECalorHitAllocator = new G4Allocator<SCECalorHit>;
-  }
-  void *hit;
-  hit = (void *) SCECalorHitAllocator->MallocSingle();
-  return hit;
+        if (!SCECalorHitAllocator) {
+                SCECalorHitAllocator = new G4Allocator<SCECalorHit>;
+        }
+        void *hit;
+        hit = (void *) SCECalorHitAllocator->MallocSingle();
+        return hit;
 }
 
 inline void SCECalorHit::operator delete(void *hit)
 {
-  if (!SCECalorHitAllocator) {
-    SCECalorHitAllocator = new G4Allocator<SCECalorHit>;
-  }
-  SCECalorHitAllocator->FreeSingle((SCECalorHit*) hit);
+        if (!SCECalorHitAllocator) {
+                SCECalorHitAllocator = new G4Allocator<SCECalorHit>;
+        }
+        SCECalorHitAllocator->FreeSingle((SCECalorHit*) hit);
 }
 
-inline void SCECalorHit::Add(G4double de, G4double dl) {
-  fEdep += de;
-  fTrackLength += dl;
+inline void SCECalorHit::Add(G4double de, G4double dl, G4ThreeVector dp) {
+        fEdep += de;
+        fTrackLength += dl;
+        fPos += dp;
 }
 
 inline G4double SCECalorHit::GetEdep() const {
-  return fEdep;
+        return fEdep;
 }
 
 inline G4double SCECalorHit::GetTrackLength() const {
-  return fTrackLength;
+        return fTrackLength;
+}
+
+inline G4ThreeVector SCECalorHit::GetPos() const {
+        return fPos;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

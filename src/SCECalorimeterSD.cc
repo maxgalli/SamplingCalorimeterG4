@@ -62,6 +62,9 @@ G4bool SCECalorimeterSD::ProcessHits(G4Step* step,
 
   auto touchable = (step->GetPreStepPoint()->GetTouchable());
 
+  // position
+  auto pos = step->GetPostStepPoint()->GetPosition();
+
   // Get calorimeter cell id
   auto layerNumber = touchable->GetReplicaNumber(1);
 
@@ -79,8 +82,8 @@ G4bool SCECalorimeterSD::ProcessHits(G4Step* step,
     = (*fHitsCollection)[fHitsCollection->entries()-1];
 
   // Add values
-  hit->Add(edep, stepLength);
-  hitTotal->Add(edep, stepLength);
+  hit->Add(edep, stepLength, pos);
+  hitTotal->Add(edep, stepLength, pos);
 
   return true;
 }
