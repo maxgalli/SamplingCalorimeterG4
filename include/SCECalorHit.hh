@@ -32,7 +32,7 @@ class SCECalorHit : public G4VHit
                 virtual void Print();
 
                 // methods to handle data
-                void Add(G4double de, G4double dl, G4ThreeVector dp);
+                void Add(G4double de, G4double dl);
 
                 // get methods
                 G4double GetEdep() const;
@@ -42,7 +42,7 @@ class SCECalorHit : public G4VHit
         private:
                 G4double fEdep;        ///< Energy deposit in the sensitive volume
                 G4double fTrackLength; ///< Track length in the  sensitive volume
-                G4ThreeVector fPos;
+                G4ThreeVector* fPos;
 
 };
 
@@ -72,10 +72,9 @@ inline void SCECalorHit::operator delete(void *hit)
         SCECalorHitAllocator->FreeSingle((SCECalorHit*) hit);
 }
 
-inline void SCECalorHit::Add(G4double de, G4double dl, G4ThreeVector dp) {
+inline void SCECalorHit::Add(G4double de, G4double dl) {
         fEdep += de;
         fTrackLength += dl;
-        fPos = dp;
 }
 
 inline G4double SCECalorHit::GetEdep() const {
