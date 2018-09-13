@@ -75,7 +75,7 @@ inline void SCECalorHit::operator delete(void *hit)
 inline void SCECalorHit::Add(G4double de, G4double dl, G4ThreeVector dp) {
         fEdep += de;
         fTrackLength += dl;
-        fPos += dp;
+        fPos = dp;
 }
 
 inline G4double SCECalorHit::GetEdep() const {
