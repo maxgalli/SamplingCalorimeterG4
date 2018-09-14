@@ -37,12 +37,18 @@ class SCECalorHit : public G4VHit
                 // get methods
                 G4double GetEdep() const;
                 G4double GetTrackLength() const;
-                G4ThreeVector GetPos() const;
+                std::vector<G4ThreeVector> GetPos();
+
+                // set pos
+                void SetPos(G4ThreeVector xyz) {
+                        fPos.push_back(xyz);
+                }
 
         private:
                 G4double fEdep;        ///< Energy deposit in the sensitive volume
                 G4double fTrackLength; ///< Track length in the  sensitive volume
-                G4ThreeVector* fPos;
+                std::vector<G4ThreeVector> fPos;
+
 
 };
 
@@ -85,9 +91,10 @@ inline G4double SCECalorHit::GetTrackLength() const {
         return fTrackLength;
 }
 
-inline G4ThreeVector SCECalorHit::GetPos() const {
+inline std::vector<G4ThreeVector> SCECalorHit::GetPos() {
         return fPos;
 }
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

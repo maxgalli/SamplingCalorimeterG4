@@ -84,6 +84,7 @@ G4bool SCECalorimeterSD::ProcessHits(G4Step* step,
   // Add values
   hit->Add(edep, stepLength);
   hitTotal->Add(edep, stepLength);
+  hit->SetPos(pos);
 
   return true;
 }

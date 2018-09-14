@@ -15,7 +15,7 @@ SCECalorHit::SCECalorHit()
         : G4VHit(),
         fEdep(0.),
         fTrackLength(0.),
-        fPos(G4ThreeVector())
+        fPos(std::vector<G4ThreeVector>())
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
