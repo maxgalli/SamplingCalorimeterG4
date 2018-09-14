@@ -41,7 +41,9 @@ SCERunAction::SCERunAction(int nenergy, int nlayers, G4String fabsmaterial, doub
                 analysisManager->CreateH1("Egap" + std::to_string(i),"Edep in gap", 100, 0., nEnergy*GeV);
                 analysisManager->CreateH1("Labs" + std::to_string(i),"trackL in absorber", 100, 0., nEnergy*m);
                 analysisManager->CreateH1("Lgap" + std::to_string(i),"trackL in gap", 100, 0., nEnergy*m);
-                analysisManager->CreateH1("Pgap" + std::to_string(i),"Transverse position in gap", 60, 0., 4*m);
+                analysisManager->CreateH1("Pgap" + std::to_string(i),"Transverse position in gap", 100, 0., 4*m);
+                analysisManager->CreateH2("Pgap2D" + std::to_string(i),"X and Y position", 100, -2.5*m, 2.5*m, 100, -2.5*m, 2.5*m);
+
 
                 // Creating ntuple
                 //
@@ -58,7 +60,8 @@ SCERunAction::SCERunAction(int nenergy, int nlayers, G4String fabsmaterial, doub
         analysisManager->CreateH1("Egap_tot","Edep in gap", 100, 0., nEnergy*GeV);
         analysisManager->CreateH1("Labs_tot","trackL in absorber", 100, 0., nEnergy*m);
         analysisManager->CreateH1("Lgap_tot","trackL in gap", 100, 0., nEnergy*m);
-                analysisManager->CreateH1("Pgap_tot","Transverse position in gap", 100, 0., 4.*m);
+        analysisManager->CreateH1("Pgap_tot","Transverse position in gap", 100, 0., 4.*m);
+        analysisManager->CreateH2("Pgap2D_tot","X and Y position", 100, -2.5*m, 2.5*m, 100, -2.5*m, 2.5*m);
 
         // Creating ntuple for tot
         //

@@ -131,25 +131,19 @@ void SCEEventAction::EndOfEventAction(const G4Event* event)
                         analysisManager->FillH1(id + 3, gapHit->GetTrackLength());
                 }
 
-                G4cout << "the size of step vector is: " << gapHit->GetPos().size() << G4endl;
-
-                // fill ntuple
+                // fill ntuple and pos histo
                 analysisManager->FillNtupleDColumn(i, id_tup, absoHit->GetEdep());
                 analysisManager->FillNtupleDColumn(i, id_tup + 1, gapHit->GetEdep());
                 analysisManager->FillNtupleDColumn(i, id_tup + 2, absoHit->GetTrackLength());
                 analysisManager->FillNtupleDColumn(i, id_tup + 3, gapHit->GetTrackLength());
-                if (gapHit->GetPos().size() != 0) {
-                        for (auto j=gapHit->GetPos().begin(); j!=gapHit->GetPos().end(); j++) {
-                                G4cout << "Inside j for" << G4endl;
-                                analysisManager->FillH1(id + 4, std::sqrt(std::pow(j->x(),2)+std::pow(j->y(),2)));
-                                analysisManager->FillNtupleDColumn(i, id_tup + 4, std::sqrt(std::pow(j->x(),2)+std::pow(j->y(),2)));
+
+                if (gapHit->GetPos().empty() == false) {
+                        for (int j=0; j<(int)gapHit->GetPos().size(); ++j) {
+                                analysisManager->FillH1(id + 4, std::sqrt(std::pow(gapHit->GetPos()[j].x(),2)+std::pow(gapHit->GetPos()[j].y(),2)));
+                                analysisManager->FillH2(i, gapHit->GetPos()[j].x(), gapHit->GetPos()[j].y());
+                                analysisManager->FillNtupleDColumn(i, id_tup + 4, std::sqrt(std::pow(gapHit->GetPos()[j].x(),2)+std::pow(gapHit->GetPos()[j].y(),2)));
                         }
                         id += 5;
-                        analysisManager->AddNtupleRow(i);
-                }
-
-                else {
-                        id += 4;
                         analysisManager->AddNtupleRow(i);
                 }
         }
