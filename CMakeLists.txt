@@ -53,6 +53,7 @@ set(EXAMPLESCEC_SCRIPTS
   root_analysis.cpp
   root_analysis.C
   get_resolution.C
+  transverse.C
   )
 
 foreach(_script ${EXAMPLESCEC_SCRIPTS})
