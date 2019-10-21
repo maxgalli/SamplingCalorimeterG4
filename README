@@ -1,37 +1,19 @@
-Il programma esegue una simulazione di pioni positivi su un calorimetro a
-campionamento. Il tipo di particella, essendo assegnato, è hard-coded mentre
-gli altri parametri per gli studi effettuati possono essere impostati da linea
-di comando.
+The software runs a simulation of positive pions in a sampling calorimeter.
+The kind of particle, being assigned for the exam, is hard-coded; on the other
+hand, the other parameters can be set through the command line.
 
-Istruzioni per la compilazione:
-- estrarre/clonare il repo (unzip, tar o git clone);
+Compile with:
 - mkdir build
 - cd build
 - cmake /path-to-this-repo
 - make
 
-Viene prodotto un eseguibile dal nome "exampleSCE". Esso deve essere eseguito
-con una serie di argomenti (OBBLIGATORI):
+The executable produced is called "exampleSCE". It has to be run with the
+following arguments (mandatory):
 
 ./exampleSCE [-ev number of events ] [-en pion energy (GeV)] [-nl number of layers] [-am absorber material] [-lt active layers thickness (cm)]
 
-Esempio:
+Example:
 ./exampleSCE -ev 10000 -en 10 -nl 20 -am G4_Pb -lt 5
-lancerà un fascio di 10 pioni di 10 GeV ciascuno su un calorimetro costituito
-da 20 strati, dove la lamina assorbitrice è in piombo e misura 5 cm.
-
-Il programma genera un root file, che si troverà nella cartella "rootfiles",
-contenente gli istogrammi riferiti ad energie e track lenghts per ogni layer,
-sia attivo che passivo, e totali: in totale si avranno dunque nLayers*4+4
-istogrammi, più altrettante nTuple.
-L'altro file generato è un file di testo, che si troverà nella cartella
-"txtfiles", in cui le colonne sono, da sinistra a destra: numero del layer,
-track lenght per strato attivo (cumulativa, quindi ognuna è la somma di quella
-corrente più tutte quelle precedenti, u.d.m mm) e energia depositata nello strato
-attivo (MeV). Questo file serve per un'analisi realizzata con un programma scritto
-in Python, non contenuto in questo repo.
-
-Sono poi presenti due macro di ROOT: quelle usate sono root_analysis.C, che
-plotta gli istogrammi dell'energia depoitata e track lenght totali, e
-get_resolution.C, che restituisce la risoluzione energetica a partire
-dall'istogramma contenente l'energia totale rilasciata negli strati attivi.
+will run a beam of 10 pions of energy 10 GeV each on in a calorimeter made of
+20 layers, where the absorber layer is made of lead and measures 5 cm.
